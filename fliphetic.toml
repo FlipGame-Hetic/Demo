@@ -12,5 +12,5 @@ file = "deploy/docker-compose.yml"
 
 [esp32]
 firmware   = "firmware/build/firmware.bin"
-chip       = "esp32c6"
+chip       = "esp32"
 flash_addr = "0x0"
