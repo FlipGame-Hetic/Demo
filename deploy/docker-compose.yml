@@ -2,7 +2,7 @@ services:
   front-screen:
     image: ghcr.io/flipgame-hetic/front-screen:main
     pull_policy: always
-    ports: ["8081:80"]
+    ports: ["0:80"]
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost/"]
       interval: 5s
@@ -12,18 +12,16 @@ services:
   back-screen:
     image: ghcr.io/flipgame-hetic/back-screen:main
     pull_policy: always
-    ports: ["8082:80"]
+    ports: ["0:80"]
 
   dmd-screen:
     image: ghcr.io/flipgame-hetic/dmd-screen:main
     pull_policy: always
-    ports: ["8083:80"]
+    ports: ["0:80"]
 
   api:
     image: ghcr.io/flipgame-hetic/backend:main
     pull_policy: always
-    ports:
-      - "8080:8080"
     environment:
       API_PORT: "8080"
       APP_ENV: production
