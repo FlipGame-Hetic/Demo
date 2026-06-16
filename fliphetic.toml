@@ -10,8 +10,7 @@ dmd       = { service = "dmd-screen", port = 80 }
 [compose]
 file = "deploy/docker-compose.yml"
 
-[esp32.buttons]
+[esp32.esp32]
 firmware   = "firmware/build/firmware.bin"
 chip       = "esp32"
 flash_addr = "0x0"
-required   = false
