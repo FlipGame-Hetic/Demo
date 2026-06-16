@@ -22,6 +22,8 @@ services:
   api:
     image: ghcr.io/flipgame-hetic/backend:main
     pull_policy: always
+    ports:
+      - "8080:8080"
     environment:
       API_PORT: "8080"
       APP_ENV: production
