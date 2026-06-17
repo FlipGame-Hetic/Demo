@@ -6,7 +6,7 @@ services:
     environment:
       VITE_ENVIRONMENT: ${VITE_ENVIRONMENT}
       VITE_SCREEN_HUB_URL: ${VITE_SCREEN_HUB_URL}
-      VITE_SCREEN_TOKEN: ${FRONT_SCREEN_TOKEN}
+      VITE_SCREEN_TOKEN: ${VITE_SCREEN_TOKEN}
       VITE_WS_URL: ${VITE_WS_URL}
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost/"]
@@ -19,14 +19,14 @@ services:
     pull_policy: always
     ports: ["0:80"]
     environment:
-      VITE_SCREEN_TOKEN: ${BACK_SCREEN_TOKEN}
+      VITE_SCREEN_TOKEN: ${VITE_SCREEN_TOKEN}
 
   dmd-screen:
     image: ghcr.io/flipgame-hetic/dmd-screen:main
     pull_policy: always
     ports: ["0:80"]
     environment:
-      VITE_SCREEN_TOKEN: ${DMD_SCREEN_TOKEN}
+      VITE_SCREEN_TOKEN: ${VITE_SCREEN_TOKEN}
 
   api:
     image: ghcr.io/flipgame-hetic/backend:main
@@ -46,7 +46,7 @@ services:
       mosquitto:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:${API_PORT}/health"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:$$API_PORT/health"]
       interval: 10s
       timeout: 5s
       retries: 5
