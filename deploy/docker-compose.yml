@@ -37,6 +37,7 @@ services:
   api:
     image: ghcr.io/flipgame-hetic/backend:main
     pull_policy: always
+    command: ["sh", "-c", "set -o pipefail; /usr/local/bin/app 2>&1 | tee -a /data/api.log"]
     environment:
       - API_PORT
       - APP_ENV
