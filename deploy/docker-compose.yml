@@ -52,11 +52,13 @@ services:
       mosquitto:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:$$API_PORT/health"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health"]
       interval: 10s
       timeout: 5s
       start_period: 15s
       retries: 5
+    expose:
+      - "8080"
 
   nginx:
     image: nginx:alpine
@@ -69,7 +71,7 @@ services:
       api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost/nginx/health"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost/nginx/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -83,7 +85,7 @@ services:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
       - mosquitto-data:/mosquitto/data
     healthcheck:
-      test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
+      test: ["CMD-SHELL", "mosquitto_sub -h localhost -t '$$SYS/#' -C 1 -W 3"]
       interval: 10s
       timeout: 5s
       start_period: 15s
