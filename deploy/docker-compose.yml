@@ -52,7 +52,7 @@ services:
       mosquitto:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health"]
+      test: ["CMD-SHELL", "out=$(wget -qO- http://localhost:8080/health 2>&1); rc=$?; [ $rc -ne 0 ] && echo \"[api-health] $out\" >/proc/1/fd/2; exit $rc"]
       interval: 10s
       timeout: 5s
       start_period: 15s
@@ -71,7 +71,7 @@ services:
       api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost/nginx/health"]
+      test: ["CMD-SHELL", "out=$(wget -qO- http://localhost/nginx/health 2>&1); rc=$?; [ $rc -ne 0 ] && echo \"[nginx-health] $out\" >/proc/1/fd/2; exit $rc"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -85,7 +85,7 @@ services:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
       - mosquitto-data:/mosquitto/data
     healthcheck:
-      test: ["CMD-SHELL", "mosquitto_sub -h localhost -t '$$SYS/#' -C 1 -W 3"]
+      test: ["CMD-SHELL", "out=$(mosquitto_sub -h localhost -t '$$SYS/#' -C 1 -W 3 2>&1); rc=$?; [ $rc -ne 0 ] && echo \"[mosquitto-health] $out\" >/proc/1/fd/2; exit $rc"]
       interval: 10s
       timeout: 5s
       start_period: 15s
