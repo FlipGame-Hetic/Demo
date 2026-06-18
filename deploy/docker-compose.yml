@@ -23,6 +23,7 @@ services:
       VITE_SCREEN_HUB_URL: ${VITE_SCREEN_HUB_URL:-screen-hub-url}
       VITE_SCREEN_TOKEN: ${BACK_SCREEN_TOKEN:-back-screen-token}
       VITE_WS_URL: ${VITE_WS_URL:-vite-ws-url}
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8080}
 
   dmd-screen:
     image: ghcr.io/flipgame-hetic/dmd-screen:main
