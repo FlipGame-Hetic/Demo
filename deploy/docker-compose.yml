@@ -55,6 +55,7 @@ services:
       test: ["CMD-SHELL", "wget -qO- http://localhost:$$API_PORT/health"]
       interval: 10s
       timeout: 5s
+      start_period: 15s
       retries: 5
 
   nginx:
@@ -85,6 +86,7 @@ services:
       test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-i", "healthcheck", "-W", "3"]
       interval: 10s
       timeout: 5s
+      start_period: 5s
       retries: 3
 
 volumes:
