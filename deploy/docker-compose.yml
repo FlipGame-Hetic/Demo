@@ -40,9 +40,6 @@ services:
     pull_policy: always
     environment:
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000}
-      MQTT_PORT: ${MQTT_PORT:-1883}
-      MQTT_HOST: ${MQTT_HOST:-mosquitto}
-      MQTT_CLIENT_ID: ${MQTT_CLIENT_ID:-mqtt-bridge}
       DATABASE_URL: ${DATABASE_URL:-sqlite:////data/flipper.db}
       SCREEN_JWT_SECRET: ${SCREEN_JWT_SECRET:-change_me_change_me_change_me}
     volumes:
@@ -59,6 +56,21 @@ services:
       retries: 5
     expose:
       - "8080"
+
+  mqtt-bridge:
+    image: ghcr.io/flipgame-hetic/mqtt-bridge:main
+    pull_policy: always
+    environment:
+      MQTT_HOST: ${MQTT_HOST:-mosquitto}
+      MQTT_PORT: ${MQTT_PORT:-1883}
+      MQTT_CLIENT_ID: ${MQTT_CLIENT_ID:-mqtt-bridge}
+      BACKEND_WS_URL: ${BACKEND_WS_URL:-ws://api:8080/ws/bridge}
+    restart: on-failure
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      api:
+        condition: service_healthy
 
   nginx:
     image: nginx:alpine
