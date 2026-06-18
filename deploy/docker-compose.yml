@@ -39,7 +39,7 @@ services:
     pull_policy: always
     environment:
       DATABASE_URL: sqlite:////data/flipper.db
-      SCREEN_JWT_SECRET: ${SCREEN_JWT_SECRET:?}
+      SCREEN_JWT_SECRET: ${SCREEN_JWT_SECRET:-change_me_change_me_change_me}
     volumes:
       - backend-data:/data
     restart: on-failure
