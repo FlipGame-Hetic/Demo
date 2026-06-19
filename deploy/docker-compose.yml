@@ -57,6 +57,19 @@ services:
     expose:
       - "8080"
 
+  mqtt-bridge:
+    image: ghcr.io/flipgame-hetic/mqtt-bridge:main
+    pull_policy: always
+    restart: on-failure
+    environment:
+      MQTT_HOST: mosquitto
+      BACKEND_WS_URL: ws://api:8080/ws/bridge
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+
   nginx:
     image: nginx:alpine
     ports:
